@@ -39,5 +39,8 @@ public class TennisPlayerApplication implements CommandLineRunner {
 //        logger.info("Remove player with ID: {} Which is: {}into the DB\n", removeID, playerDAO.getPlayerByID(removeID));
 //        playerDAO.deletePlayerById(removeID);
 //        logger.info("DB after inserting {}", playerDAO.getAllPlayers());
+
+        logger.info("Create tournament table and add one record to it, the result is: {}", playerDAO.createTournamentTable());
+        logger.info("Getting all the tournaments: {}", playerDAO.getAllTournaments());
     }
 }

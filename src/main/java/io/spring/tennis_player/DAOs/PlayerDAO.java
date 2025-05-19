@@ -1,6 +1,7 @@
 package io.spring.tennis_player.DAOs;
 
 import io.spring.tennis_player.model.Player;
+import io.spring.tennis_player.model.Tournament;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,34 @@ public class PlayerDAO {
 
         logger.info("deletePlayer with id [{}] from the db .. result is: {}", id, result);
         return result;
+    }
+
+    public int createTournamentTable() {
+        String sql = "CREATE TABLE TOURNAMENT (ID INTEGER, NAME VARCHAR(50), LOCATION VARCHAR(50), PRIMARY KEY (ID))";
+
+        try {
+            jdbcTemplate.execute(sql);
+        } catch (DataAccessException e) {
+            logger.warn(e.getMessage());
+        }
+
+        String sql2 = "INSERT INTO TOURNAMENT (ID, NAME, LOCATION) " +
+                "VALUES (1, 'WORLD CUP', 'Japan')";
+        int result = 0;
+
+        try {
+            result = jdbcTemplate.update(sql2);
+        } catch (DataAccessException e) {
+            logger.warn(e.getMessage());
+        }
+
+        logger.info("updateTournament result is: {}", result);
+        return result;
+    }
+
+    public List<Tournament> getAllTournaments() {
+        String sql = "SELECT * FROM TOURNAMENT";
+        // query: returns a list of objects
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Tournament.class));
     }
 }
