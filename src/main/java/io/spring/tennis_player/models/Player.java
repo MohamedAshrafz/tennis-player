@@ -1,22 +1,39 @@
-package io.spring.tennis_player.model;
+package io.spring.tennis_player.models;
+
+import jakarta.persistence.*;
 
 import java.sql.Date;
 
-// The Player class is a bean and the data coming from the Player table in H2 will be mapped to this class.
+@Entity
+//@Table(name = "Player") // Not needed unless different Table name is required
 public class Player {
+
+    @Id
+    @GeneratedValue
     private int id;
+
     private String name;
+
+//    @Column(name="nationality") // Not needed unless different Column name is required
     private String nationality;
+
     private Date birthDate;
+
     private int titles;
 
-    public Player( ) {
-
+    public Player() {
     }
 
     public Player(int id, String name, String nationality, Date birthDate, int titles) {
-        super();
         this.id = id;
+        this.name = name;
+        this.nationality = nationality;
+        this.birthDate = birthDate;
+        this.titles = titles;
+    }
+
+    public Player(String name, String nationality, Date birthDate, int titles) {
+        super();
         this.name = name;
         this.nationality = nationality;
         this.birthDate = birthDate;

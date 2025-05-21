@@ -1,4 +1,4 @@
-package io.spring.tennis_player.model;
+package io.spring.tennis_player.models;
 
 import org.springframework.stereotype.Component;
 
