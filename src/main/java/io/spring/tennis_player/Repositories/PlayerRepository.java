@@ -72,13 +72,7 @@ public class PlayerRepository {
     }
 
     public Player insertOrUpdatePlayer(Player player) {
-
-        Player result = null;
-        try {
-            result = entityManager.merge(player);
-        } catch (DataAccessException e) {
-            logger.warn(e.getMessage());
-        }
+        Player result = entityManager.merge(player);
 
         logger.info("The Player [{}] was inserted/updated", result);
         return result;
@@ -87,16 +81,12 @@ public class PlayerRepository {
     public int deletePlayerById(int id) {
 
         int result = 0;
-        try {
-            Player player = entityManager.find(Player.class, id);
-            if (player != null) {
-                entityManager.remove(player);
-                result = 1;
-            }
-        } catch (DataAccessException e) {
-            logger.warn(e.getMessage());
-        }
 
+        Player player = entityManager.find(Player.class, id);
+        if (player != null) {
+            entityManager.remove(player);
+            result = 1;
+        }
         logger.info("deletePlayer with id [{}] from the db .. result is: {}", id, result);
         return result;
     }
