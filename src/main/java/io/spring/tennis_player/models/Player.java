@@ -4,12 +4,20 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 
-@Entity
 //@Table(name = "Player") // Not needed unless different Table name is required
+@Entity
+@NamedQuery(
+        name = QueryNames.GET_ALL_PLAYERS,
+        query = "SELECT p FROM Player p"
+)
+@NamedQuery(
+        name = QueryNames.GET_PLAYERS_WITH_NATIONALITY,
+        query = "SELECT p FROM Player p WHERE p.nationality = ?1"
+)
 public class Player {
 
     @Id
-    @GeneratedValue
+//    @GeneratedValue // If you want to add the ids yourself you must remove the @GeneratedValue
     private int id;
 
     private String name;

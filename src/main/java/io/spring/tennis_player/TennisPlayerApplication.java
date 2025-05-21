@@ -1,5 +1,7 @@
 package io.spring.tennis_player;
 
+import io.spring.tennis_player.Repositories.PlayerRepository;
+import io.spring.tennis_player.models.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +9,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.Date;
+
 @SpringBootApplication
 public class TennisPlayerApplication implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-//    private PlayerDAO playerDAO;
+    private PlayerRepository playerRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(TennisPlayerApplication.class, args);
@@ -23,22 +27,33 @@ public class TennisPlayerApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         int removeID = 3;
+        int updateID = 2;
         String nationality = "USA";
 
-//        Player newPlayer = new Player(8, "Mohamed Ashraf", "asg", Date.valueOf("1999-10-19"), 8);
-//
-//        logger.info("Getting all players: {}", playerDAO.getAllPlayers());
-//        logger.info("Getting players with nationality[{}]: {}", nationality, playerDAO.getPlayersByNationality(nationality));
-//
-//        logger.info("Inserting a new player {} into the DB ", newPlayer);
-//        playerDAO.insertPlayer(newPlayer);
-//        logger.info("DB after inserting {}", playerDAO.getAllPlayers());
-//
-//        logger.info("Remove player with ID: {} Which is: {}into the DB\n", removeID, playerDAO.getPlayerByID(removeID));
-//        playerDAO.deletePlayerById(removeID);
-//        logger.info("DB after inserting {}", playerDAO.getAllPlayers());
+        logger.info("\n\n>> Inserting Player: {}\n", playerRepository.insertOrUpdatePlayer(
+                new Player(1, "Djokovic", "Serbia", Date.valueOf("1987-05-22"), 81)));
 
-//        logger.info("Create tournament table and add one record to it, the result is: {}", playerDAO.createTournamentTable());
-//        logger.info("Getting all the tournaments: {}", playerDAO.getAllTournaments());
+        logger.info("\n\n>> Inserting Player: {}\n", playerRepository.insertOrUpdatePlayer(
+                new Player(2, "Monfils", "USA", Date.valueOf("1986-09-01"), 10)));
+
+        logger.info("\n\n>> Inserting Player: {}\n", playerRepository.insertOrUpdatePlayer(
+                new Player(3, "Isner", "USA", Date.valueOf("1985-04-26"), 15)));
+
+        logger.info("\n\n>> Inserting Player: {}\n", playerRepository.insertOrUpdatePlayer(
+                new Player(4, "Messi", "Argentina", Date.valueOf("1994-08-17"), 8)));
+//
+//        logger.info("\n\n>> Inserting Player: {}\n", playerRepository.insertOrUpdatePlayer(
+//                new Player("Monfils", "France", Date.valueOf("1986-09-01"), 10)));
+
+        logger.info("\n\n>> Getting all Players: {}\n", playerRepository.getAllPlayers());
+
+//        logger.info("\n\n>> Updating Player with id[{}] \nresulted: {}\n", updateID, playerRepository.insertOrUpdatePlayer(
+//                new Player(updateID, "Momo", "Egypt", Date.valueOf("1986-09-01"), 10)));
+//
+//        logger.info("\n\n>> Getting player with id[{}]: {}\n", updateID, playerRepository.getPlayerByID(updateID));
+
+        logger.info("\n\n>> Getting all Players: {}\n", playerRepository.getAllPlayers());
+
+        logger.info("\n\n>> Getting player with nationality[{}] \nresulted: {}\n", nationality, playerRepository.getPlayersByNationality(nationality));
     }
 }
