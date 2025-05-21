@@ -26,11 +26,13 @@ public class TennisPlayerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//        int removeID = 3;
-//
+        int removeID = 3;
+        String nationality = "USA";
+
 //        Player newPlayer = new Player(8, "Mohamed Ashraf", "asg", Date.valueOf("1999-10-19"), 8);
 //
 //        logger.info("Getting all players: {}", playerDAO.getAllPlayers());
+//        logger.info("Getting players with nationality[{}]: {}", nationality, playerDAO.getPlayersByNationality(nationality));
 //
 //        logger.info("Inserting a new player {} into the DB ", newPlayer);
 //        playerDAO.insertPlayer(newPlayer);

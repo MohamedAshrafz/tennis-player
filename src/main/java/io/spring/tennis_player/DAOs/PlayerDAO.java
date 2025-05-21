@@ -8,13 +8,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
 public class PlayerDAO {
+
+    private static final class PlayerMapper implements RowMapper<Player> {
+
+        @Override
+        public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Player player = new Player(
+                    rs.getInt("ID"),
+                    rs.getString("Name"),
+                    rs.getString("Nationality"),
+                    rs.getDate("Birth_date"),
+                    rs.getInt("Titles")
+            );
+            return player;
+        }
+    }
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -31,10 +49,10 @@ public class PlayerDAO {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Player.class));
     }
 
-    public List<Player> getAllPlayersByNationality(String nationality) {
-        String sql = "SELECT * FROM PLAYER WHERE NATIONALITY = ?";
+    public List<Player> getPlayersByNationality(String nationality) {
+        String sql = "SELECT * FROM PLAYER WHERE Nationality = ?";
         // query: returns a list of objects
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Player.class), nationality);
+        return jdbcTemplate.query(sql, new PlayerMapper(), nationality);
     }
 
     public Player getPlayerByID(int id) {

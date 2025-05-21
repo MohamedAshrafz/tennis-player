@@ -34,10 +34,10 @@ public class Tournament {
 
     @Override
     public String toString() {
-        return "Tournament{" +
+        return "\nTournament [" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", location='" + location + '\'' +
-                '}';
+                ']';
     }
 }
