@@ -8,4 +8,4 @@ INSERT INTO Player (ID, Name, Nationality, Birth_date, Titles)
 VALUES(3, 'Isner', 'USA', '1985-04-26', 15);
 
 INSERT INTO Player (ID, Name, Nationality, Birth_date, Titles)
-VALUES(11, 'Messi', 'Argentina', '1994-08-17', 8)
+VALUES(11, 'Messi', 'Argentina', '1994-08-17', 8);
