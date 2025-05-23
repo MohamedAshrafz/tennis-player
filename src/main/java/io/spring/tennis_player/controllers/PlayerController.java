@@ -1,6 +1,6 @@
 package io.spring.tennis_player.controllers;
 
-import io.spring.tennis_player.Repositories.PlayerRepository;
+import io.spring.tennis_player.Repositories.PlayerJPARepository;
 import io.spring.tennis_player.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,16 +14,16 @@ import java.sql.Date;
 @Controller
 public class PlayerController {
 
-    private final PlayerRepository playerRepository;
+    private final PlayerJPARepository playerRepository;
 
     @Autowired
-    public PlayerController(PlayerRepository playerRepository) {
+    public PlayerController(PlayerJPARepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 
     @GetMapping("/players")
     public String getAllPlayers(Model model) {
-        model.addAttribute("players", playerRepository.getAllPlayers());
+        model.addAttribute("players", playerRepository.findAll());
 
         return "players.html";
     }
@@ -38,9 +38,9 @@ public class PlayerController {
             Model model) {
 
         Player newPlayer = new Player(id, name, nationality, birthDate, titles);
-        playerRepository.insertOrUpdatePlayer(newPlayer);
+        playerRepository.save(newPlayer);
 
-        model.addAttribute("players", playerRepository.getAllPlayers());
+        model.addAttribute("players", playerRepository.findAll());
 
         return "players.html";
     }
@@ -55,9 +55,9 @@ public class PlayerController {
             Model model) {
 
         Player updatedPlayer = new Player(id, name, nationality, birthDate, titles);
-        playerRepository.insertOrUpdatePlayer(updatedPlayer);
+        playerRepository.save(updatedPlayer);
 
-        model.addAttribute("players", playerRepository.getAllPlayers());
+        model.addAttribute("players", playerRepository.findAll());
 
         return "players.html";
     }
@@ -66,9 +66,9 @@ public class PlayerController {
     public String deletePlayer(
             @RequestParam int id,
             Model model) {
-        playerRepository.deletePlayerById(id);
+        playerRepository.deleteById(id);
 
-        model.addAttribute("players", playerRepository.getAllPlayers());
+        model.addAttribute("players", playerRepository.findAll());
 
         return "players.html";
     }
