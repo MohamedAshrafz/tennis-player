@@ -1,4 +1,4 @@
-package io.spring.tennis_player.challengeJPA;
+package io.spring.challengeJPA;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

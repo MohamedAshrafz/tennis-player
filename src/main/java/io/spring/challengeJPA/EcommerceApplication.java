@@ -1,4 +1,4 @@
-package io.spring.tennis_player.challengeJPA;
+package io.spring.challengeJPA;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

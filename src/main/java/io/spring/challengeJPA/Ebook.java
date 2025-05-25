@@ -1,9 +1,10 @@
-package io.spring.tennis_player.challengeJPARepo;
+package io.spring.challengeJPA;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "jpa_repo_ebook")
+@Table(name = "jpa_ebook")
+@NamedQuery(name = "get_all_ebooks", query = "SELECT b FROM Ebook b")
 public class Ebook {
 
     @Id
