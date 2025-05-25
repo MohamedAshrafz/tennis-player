@@ -3,15 +3,12 @@ package io.spring.tennis_player.controllers;
 import io.spring.tennis_player.Repositories.PlayerJPARepository;
 import io.spring.tennis_player.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
 
-@Controller
+@RestController
 public class PlayerController {
 
     private final PlayerJPARepository playerRepository;
@@ -22,54 +19,38 @@ public class PlayerController {
     }
 
     @GetMapping("/players")
-    public String getAllPlayers(Model model) {
-        model.addAttribute("players", playerRepository.findAll());
-
-        return "players.html";
+    public List<Player> getAllPlayers() {
+        return playerRepository.findAll();
     }
 
     @PostMapping("/addPlayer")
-    public String addPlayer(
+    public Player addPlayer(
             @RequestParam int id,
             @RequestParam String name,
             @RequestParam String nationality,
             @RequestParam Date birthDate,
-            @RequestParam int titles,
-            Model model) {
+            @RequestParam int titles) {
 
         Player newPlayer = new Player(id, name, nationality, birthDate, titles);
-        playerRepository.save(newPlayer);
-
-        model.addAttribute("players", playerRepository.findAll());
-
-        return "players.html";
+        return playerRepository.save(newPlayer);
     }
 
-    @PostMapping("/updatePlayer")
-    public String updatePlayer(
+    @PatchMapping("/updatePlayer")
+    public Player updatePlayer(
             @RequestParam int id,
             @RequestParam String name,
             @RequestParam String nationality,
             @RequestParam Date birthDate,
-            @RequestParam int titles,
-            Model model) {
+            @RequestParam int titles) {
 
         Player updatedPlayer = new Player(id, name, nationality, birthDate, titles);
-        playerRepository.save(updatedPlayer);
-
-        model.addAttribute("players", playerRepository.findAll());
-
-        return "players.html";
+        return playerRepository.save(updatedPlayer);
     }
 
-    @PostMapping("/deletePlayer")
-    public String deletePlayer(
-            @RequestParam int id,
-            Model model) {
-        playerRepository.deleteById(id);
+    @DeleteMapping("/deletePlayer")
+    public void deletePlayer(
+            @RequestParam int id) {
 
-        model.addAttribute("players", playerRepository.findAll());
-
-        return "players.html";
+        playerRepository.deleteById(id);;
     }
 }
