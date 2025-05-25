@@ -2,14 +2,19 @@ package io.spring.tennis_player.controllers;
 
 import io.spring.tennis_player.Repositories.PlayerJPARepository;
 import io.spring.tennis_player.models.Player;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/players")
 public class PlayerController {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final PlayerJPARepository playerRepository;
 
@@ -18,39 +23,62 @@ public class PlayerController {
         this.playerRepository = playerRepository;
     }
 
-    @GetMapping("/players")
+    @GetMapping()
     public List<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
 
-    @PostMapping("/addPlayer")
+    @GetMapping(params = "id")
+    public Player getPlayerById(
+            @RequestParam int id) {
+
+        logger.info("getPlayerById for id: {}", id);
+
+        return playerRepository.findById(id).orElse(null);
+    }
+
+    @PutMapping
     public Player addPlayer(
-            @RequestParam int id,
-            @RequestParam String name,
-            @RequestParam String nationality,
-            @RequestParam Date birthDate,
-            @RequestParam int titles) {
+            @RequestBody Player player) {
 
-        Player newPlayer = new Player(id, name, nationality, birthDate, titles);
-        return playerRepository.save(newPlayer);
+        logger.info("addPlayer for player: {}", player);
+
+        return playerRepository.save(player);
     }
 
-    @PatchMapping("/updatePlayer")
+    @PatchMapping
     public Player updatePlayer(
-            @RequestParam int id,
-            @RequestParam String name,
-            @RequestParam String nationality,
-            @RequestParam Date birthDate,
-            @RequestParam int titles) {
+            @RequestBody Player player) {
 
-        Player updatedPlayer = new Player(id, name, nationality, birthDate, titles);
-        return playerRepository.save(updatedPlayer);
+        logger.info("updatePlayer for player: {}", player);
+
+        return playerRepository.save(player);
     }
 
-    @DeleteMapping("/deletePlayer")
+    @PatchMapping(params = {"id", "titles"})
+    @Transactional
+    public Player updatePlayerTitles(
+            @RequestParam int id,
+            @RequestParam int titles) {
+
+        logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
+
+        Player playerToUpdate = playerRepository.findById(id).orElse(null);
+
+        if (playerToUpdate == null)
+            return null;
+        else {
+            playerToUpdate.setTitles(titles);
+            return playerRepository.save(playerToUpdate);
+        }
+    }
+
+    @DeleteMapping(params = "id")
     public void deletePlayer(
             @RequestParam int id) {
 
-        playerRepository.deleteById(id);;
+        logger.info("deletePlayer for id: {}", id);
+
+        playerRepository.deleteById(id);
     }
 }
