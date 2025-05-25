@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerService {
@@ -39,25 +40,28 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
-    public Player updatePlayer(Player player) {
+    public Player updatePlayer(int id, Player player) throws Exception {
 
         logger.info("updatePlayer for player: {}", player);
 
-        return playerRepository.save(player);
+        if (playerRepository.existsById(id)) {
+            player.setId(id);
+            return playerRepository.save(player);
+        }
+        else
+            throw new Exception(String.format("There is no player with the id[%s]", id));
     }
 
-    public Player updatePlayerTitles(int id, int titles) {
+    public Player updatePlayerTitles(int id, int titles) throws Exception {
 
         logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
 
-        Player playerToUpdate = playerRepository.findById(id).orElse(null);
-
-        if (playerToUpdate == null)
-            return null;
-        else {
-            playerToUpdate.setTitles(titles);
-            return playerRepository.save(playerToUpdate);
-        }
+        if (playerRepository.existsById(id)) {
+            Optional<Player> player = playerRepository.findById(id);
+            player.get().setTitles(titles);
+            return playerRepository.save(player.get());
+        } else
+            throw new Exception(String.format("There is no player with the id[%s]", id));
     }
 
     public void deletePlayer(int id) {

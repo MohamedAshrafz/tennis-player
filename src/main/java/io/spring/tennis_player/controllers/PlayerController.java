@@ -42,18 +42,19 @@ public class PlayerController {
         return playerService.addPlayer(player);
     }
 
-    @PatchMapping
+    @PatchMapping(params = "id")
     public Player updatePlayer(
-            @RequestBody Player player) {
+            @RequestParam int id,
+            @RequestBody Player player) throws Exception {
 
-        return playerService.updatePlayer(player);
+        return playerService.updatePlayer(id, player);
     }
 
     @PatchMapping(params = {"id", "titles"})
     @Transactional
     public Player updatePlayerTitles(
             @RequestParam int id,
-            @RequestParam int titles) {
+            @RequestParam int titles) throws Exception {
 
         return playerService.updatePlayerTitles(id, titles);
     }
