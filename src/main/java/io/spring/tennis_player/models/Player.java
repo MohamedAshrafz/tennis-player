@@ -1,5 +1,6 @@
 package io.spring.tennis_player.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -17,7 +18,8 @@ import java.sql.Date;
 public class Player {
 
     @Id
-//    @GeneratedValue // If you want to add the ids yourself you must remove the @GeneratedValue
+//    @GeneratedValue(strategy = GenerationType.UUID) // If you want to add the ids yourself you must remove the @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -25,19 +27,12 @@ public class Player {
 //    @Column(name="nationality") // Not needed unless different Column name is required
     private String nationality;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
 
     private int titles;
 
     public Player() {
-    }
-
-    public Player(int id, String name, String nationality, Date birthDate, int titles) {
-        this.id = id;
-        this.name = name;
-        this.nationality = nationality;
-        this.birthDate = birthDate;
-        this.titles = titles;
     }
 
     public Player(String name, String nationality, Date birthDate, int titles) {

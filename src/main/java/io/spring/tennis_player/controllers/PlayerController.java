@@ -1,7 +1,7 @@
 package io.spring.tennis_player.controllers;
 
-import io.spring.tennis_player.Repositories.PlayerJPARepository;
 import io.spring.tennis_player.models.Player;
+import io.spring.tennis_player.services.PlayerService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,43 +16,37 @@ public class PlayerController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final PlayerJPARepository playerRepository;
+    private final PlayerService playerService;
 
     @Autowired
-    public PlayerController(PlayerJPARepository playerRepository) {
-        this.playerRepository = playerRepository;
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
     }
 
     @GetMapping()
     public List<Player> getAllPlayers() {
-        return playerRepository.findAll();
+        return playerService.getAllPlayers();
     }
 
     @GetMapping(params = "id")
     public Player getPlayerById(
             @RequestParam int id) {
 
-        logger.info("getPlayerById for id: {}", id);
-
-        return playerRepository.findById(id).orElse(null);
+        return playerService.getPlayerById(id);
     }
 
     @PutMapping
     public Player addPlayer(
             @RequestBody Player player) {
 
-        logger.info("addPlayer for player: {}", player);
-
-        return playerRepository.save(player);
+        return playerService.addPlayer(player);
     }
 
     @PatchMapping
     public Player updatePlayer(
             @RequestBody Player player) {
 
-        logger.info("updatePlayer for player: {}", player);
-
-        return playerRepository.save(player);
+        return playerService.updatePlayer(player);
     }
 
     @PatchMapping(params = {"id", "titles"})
@@ -61,24 +55,13 @@ public class PlayerController {
             @RequestParam int id,
             @RequestParam int titles) {
 
-        logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
-
-        Player playerToUpdate = playerRepository.findById(id).orElse(null);
-
-        if (playerToUpdate == null)
-            return null;
-        else {
-            playerToUpdate.setTitles(titles);
-            return playerRepository.save(playerToUpdate);
-        }
+        return playerService.updatePlayerTitles(id, titles);
     }
 
     @DeleteMapping(params = "id")
     public void deletePlayer(
             @RequestParam int id) {
 
-        logger.info("deletePlayer for id: {}", id);
-
-        playerRepository.deleteById(id);
+        playerService.deletePlayer(id);
     }
 }
