@@ -28,13 +28,13 @@ public class PlayerController {
         return playerRepository.findAll();
     }
 
-    @GetMapping(params = "id")
+    @GetMapping("{id}")
     public Player getPlayerById(
-            @RequestParam int id) {
+            @PathVariable String id) {
 
         logger.info("getPlayerById for id: {}", id);
 
-        return playerRepository.findById(id).orElse(null);
+        return playerRepository.findById(Integer.valueOf(id)).orElse(null);
     }
 
     @PutMapping
@@ -55,10 +55,10 @@ public class PlayerController {
         return playerRepository.save(player);
     }
 
-    @PatchMapping(params = {"id", "titles"})
+    @PatchMapping("{id}")
     @Transactional
     public Player updatePlayerTitles(
-            @RequestParam int id,
+            @PathVariable int id,
             @RequestParam int titles) {
 
         logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
@@ -73,9 +73,9 @@ public class PlayerController {
         }
     }
 
-    @DeleteMapping(params = "id")
+    @DeleteMapping("{id}")
     public void deletePlayer(
-            @RequestParam int id) {
+            @PathVariable int id) {
 
         logger.info("deletePlayer for id: {}", id);
 

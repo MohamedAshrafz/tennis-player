@@ -50,9 +50,9 @@ public class TennisPlayerApplication implements CommandLineRunner {
     }
 
     private void initDB() {
-        playerRepository.save(new Player(1, "Djokovic", "Serbia", Date.valueOf("1987-05-22"), 81));
-        playerRepository.save(new Player(2, "Monfils", "France", Date.valueOf("1986-09-01"), 10));
-        playerRepository.save(new Player(3, "Isner", "USA", Date.valueOf("1985-04-26"), 15));
-        playerRepository.save(new Player(4, "Messi", "Argentina,", Date.valueOf("1994-08-17"), 8));
+        playerRepository.save(new Player("Djokovic", "Serbia", Date.valueOf("1987-05-22"), 81));
+        playerRepository.save(new Player("Monfils", "France", Date.valueOf("1986-09-01"), 10));
+        playerRepository.save(new Player("Isner", "USA", Date.valueOf("1985-04-26"), 15));
+        playerRepository.save(new Player("Messi", "Argentina,", Date.valueOf("1994-08-17"), 8));
     }
 }
