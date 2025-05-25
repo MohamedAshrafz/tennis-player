@@ -35,14 +35,14 @@ public class PlayerController {
         return playerService.getPlayerById(id);
     }
 
-    @PutMapping
+    @PostMapping
     public Player addPlayer(
             @RequestBody Player player) {
 
         return playerService.addPlayer(player);
     }
 
-    @PatchMapping(params = "id")
+    @PutMapping(params = "id")
     public Player updatePlayer(
             @RequestParam int id,
             @RequestBody Player player) throws Exception {
