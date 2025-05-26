@@ -30,9 +30,9 @@ public class PlayerController {
 
     @GetMapping(params = "id")
     public Player getPlayerById(
-            @RequestParam int id) {
+            @RequestParam("id" /** for different naming */) int playerId) {
 
-        return playerService.getPlayerById(id);
+        return playerService.getPlayerById(playerId);
     }
 
     @PostMapping
@@ -45,7 +45,7 @@ public class PlayerController {
     @PutMapping(params = "id")
     public Player updatePlayer(
             @RequestParam int id,
-            @RequestBody Player player) throws Exception {
+            @RequestBody Player player) {
 
         return playerService.updatePlayer(id, player);
     }
@@ -54,7 +54,7 @@ public class PlayerController {
     @Transactional
     public Player updatePlayerTitles(
             @RequestParam int id,
-            @RequestParam int titles) throws Exception {
+            @RequestParam int titles) {
 
         return playerService.updatePlayerTitles(id, titles);
     }
