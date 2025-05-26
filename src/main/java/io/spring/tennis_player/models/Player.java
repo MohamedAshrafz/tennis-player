@@ -3,7 +3,7 @@ package io.spring.tennis_player.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 //@Table(name = "Player") // Not needed unless different Table name is required
 @Entity
@@ -28,14 +28,14 @@ public class Player {
     private String nationality;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private int titles;
 
     public Player() {
     }
 
-    public Player(String name, String nationality, Date birthDate, int titles) {
+    public Player(String name, String nationality, LocalDate birthDate, int titles) {
         super();
         this.name = name;
         this.nationality = nationality;
@@ -67,11 +67,11 @@ public class Player {
         this.nationality = nationality;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

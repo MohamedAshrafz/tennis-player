@@ -35,25 +35,26 @@ public class PlayerController {
         return playerService.getPlayerById(id);
     }
 
-    @PutMapping
+    @PostMapping
     public Player addPlayer(
             @RequestBody Player player) {
 
         return playerService.addPlayer(player);
     }
 
-    @PatchMapping
+    @PutMapping("{id}")
     public Player updatePlayer(
-            @RequestBody Player player) {
+            @PathVariable int id,
+            @RequestBody Player player) throws Exception {
 
-        return playerService.updatePlayer(player);
+        return playerService.updatePlayer(id, player);
     }
 
     @PatchMapping("{id}")
     @Transactional
     public Player updatePlayerTitles(
             @PathVariable int id,
-            @RequestParam int titles) {
+            @RequestParam int titles) throws Exception {
 
         return playerService.updatePlayerTitles(id, titles);
     }
