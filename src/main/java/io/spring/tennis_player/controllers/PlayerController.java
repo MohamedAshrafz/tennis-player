@@ -36,8 +36,10 @@ public class PlayerController {
     }
 
     @PostMapping
+//    @RequestMapping(method = RequestMethod.POST)
     public Player addPlayer(
             @RequestBody Player player) {
+        player.setId(0); // To ensure that if the client mistakenly tried to Post with id it's still mapped to add not update
 
         return playerService.addPlayer(player);
     }
