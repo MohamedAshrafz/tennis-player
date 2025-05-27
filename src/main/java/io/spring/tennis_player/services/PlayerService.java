@@ -88,9 +88,9 @@ public class PlayerService {
         return playerToUpdate;
     }
 
-    public Player updatePlayerTitles(int id, int titles) {
+    public String updatePlayerTitles(int id, int titles) {
 
-        logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
+        logger.info("updatePlayerTitles for id [{}] and titles [{}]", id, titles);
 
         Optional<Player> optionalPlayer = playerRepository.findById(id);
 
@@ -99,7 +99,7 @@ public class PlayerService {
         /// /////////////////////// if thrown we will top here
 
         playerRepository.updatePlayerTitles(id, titles);
-        return optionalPlayer.get();
+        return String.format("Titles updated for player with id [%d], new titles [%d].", id, titles);
     }
 
     public String deletePlayer(int id) {

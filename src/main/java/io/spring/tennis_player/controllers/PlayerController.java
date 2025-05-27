@@ -64,7 +64,7 @@ public class PlayerController {
 
     @PatchMapping(path = "updateTitles", params = {"id"})
     @Transactional
-    public Player updatePlayerTitles(
+    public String updatePlayerTitles(
             @RequestParam int id,
             @RequestBody int titles) {
 
