@@ -30,14 +30,15 @@ public class PlayerController {
 
     @GetMapping("{id}")
     public Player getPlayerById(
-            @PathVariable int id) {
+            @PathVariable("id" /** for different naming */) int playerId) {
 
-        return playerService.getPlayerById(id);
+        return playerService.getPlayerById(playerId);
     }
 
     @PostMapping
     public Player addPlayer(
             @RequestBody Player player) {
+        player.setId(0); // To ensure that if the client mistakenly tried to Post with id it's still mapped to add not update
 
         return playerService.addPlayer(player);
     }
@@ -45,7 +46,7 @@ public class PlayerController {
     @PutMapping("{id}")
     public Player updatePlayer(
             @PathVariable int id,
-            @RequestBody Player player) throws Exception {
+            @RequestBody Player player) {
 
         return playerService.updatePlayer(id, player);
     }
@@ -54,7 +55,7 @@ public class PlayerController {
     @Transactional
     public Player updatePlayerTitles(
             @PathVariable int id,
-            @RequestParam int titles) throws Exception {
+            @RequestParam int titles) {
 
         return playerService.updatePlayerTitles(id, titles);
     }
