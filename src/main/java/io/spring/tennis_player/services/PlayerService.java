@@ -49,7 +49,7 @@ public class PlayerService {
             player.setId(id);
             return playerRepository.save(player);
         } else
-            throw new ResourceNotFoundException(String.format("Player with id [%s] not found.", id));
+            throw new ResourceNotFoundException(String.format("Cannot update, Player with id [%s] not found.", id));
     }
 
     public Player updatePlayerTitles(int id, int titles) {
@@ -64,7 +64,7 @@ public class PlayerService {
             p.setTitles(titles);
             return playerRepository.save(p);
         } else
-            throw new RuntimeException(String.format("Player with id [%s] not found.", id));
+            throw new RuntimeException(String.format("Cannot update, Player with id [%s] not found.", id));
     }
 
     public void deletePlayer(int id) {

@@ -30,7 +30,7 @@ public class PlayerController {
 
     @GetMapping("{id}")
     public Player getPlayerById(
-            @PathVariable("id" /** for different naming */) int playerId) {
+            @PathVariable("id" /* for different naming */) int playerId) {
 
         return playerService.getPlayerById(playerId);
     }
@@ -46,7 +46,7 @@ public class PlayerController {
     @PutMapping("{id}")
     public Player updatePlayer(
             @PathVariable int id,
-            @RequestBody Player player) {
+            @RequestBody /* binds the JSON data to the Player object player */ Player player) {
 
         return playerService.updatePlayer(id, player);
     }
