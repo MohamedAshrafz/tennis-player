@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/players")
@@ -52,13 +53,13 @@ public class PlayerController {
         return playerService.updatePlayer(id, player);
     }
 
-    @PatchMapping(params = {"id", "titles"})
-    @Transactional
-    public Player updatePlayerTitles(
+    @PatchMapping(params = "id")
+//    @Transactional
+    public Player patchPlayer(
             @RequestParam int id,
-            @RequestParam int titles) {
+            @RequestBody Map<String, Object> fields) {
 
-        return playerService.updatePlayerTitles(id, titles);
+        return playerService.patchPlayer(id, fields);
     }
 
     @DeleteMapping(params = "id")
