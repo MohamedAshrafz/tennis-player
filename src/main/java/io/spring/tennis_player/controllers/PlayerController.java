@@ -24,7 +24,7 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Player> getAllPlayers() {
         return playerService.getAllPlayers();
     }
@@ -54,12 +54,21 @@ public class PlayerController {
     }
 
     @PatchMapping(params = "id")
-//    @Transactional
+    @Transactional
     public Player patchPlayer(
             @RequestParam int id,
             @RequestBody Map<String, Object> fields) {
 
         return playerService.patchPlayer(id, fields);
+    }
+
+    @PatchMapping(path = "updateTitles", params = {"id"})
+    @Transactional
+    public Player updatePlayerTitles(
+            @RequestParam int id,
+            @RequestBody int titles) {
+
+        return playerService.updatePlayerTitles(id, titles);
     }
 
     @DeleteMapping(params = "id")

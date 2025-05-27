@@ -83,8 +83,23 @@ public class PlayerService {
                 }
             });
 
-            playerRepository.save(playerToUpdate);
+            // Isn't needed because of @Transactional
+//            playerRepository.save(playerToUpdate);
             return playerToUpdate;
+        } else
+            throw new RuntimeException(String.format("Cannot update, Player with id [%s] not found.", id));
+    }
+
+    public Player updatePlayerTitles(int id, int titles) {
+
+        logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
+
+        playerRepository.updatePlayerTitles(id, titles);
+
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+
+        if (optionalPlayer.isPresent()) {
+            return optionalPlayer.get();
         } else
             throw new RuntimeException(String.format("Cannot update, Player with id [%s] not found.", id));
     }
