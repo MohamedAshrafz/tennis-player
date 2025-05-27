@@ -22,6 +22,4 @@ public class PlayerNotFoundException extends RuntimeException {
     public PlayerNotFoundException(Throwable cause) {
         super(cause);
     }
-
-
 }

@@ -2,10 +2,7 @@ package io.spring.tennis_player.services;
 
 import io.spring.tennis_player.Repositories.PlayerJPARepository;
 import io.spring.tennis_player.exceptions.PlayerNotFoundException;
-import io.spring.tennis_player.exceptions.ResourceNotFoundException;
 import io.spring.tennis_player.models.Player;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,7 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Player getPlayerById(int id) throws ResourceNotFoundException {
+    public Player getPlayerById(int id) {
 
         logger.info("getPlayerById for id: {}", id);
 
@@ -51,7 +48,7 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
-    public Player updatePlayer(int id, Player player) throws ResourceNotFoundException {
+    public Player updatePlayer(int id, Player player) {
 
         logger.info("updatePlayer for player: {}", player);
 
