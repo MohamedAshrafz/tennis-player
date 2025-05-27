@@ -72,9 +72,9 @@ public class PlayerController {
     }
 
     @DeleteMapping(params = "id")
-    public void deletePlayer(
+    public String deletePlayer(
             @RequestParam int id) {
 
-        playerService.deletePlayer(id);
+        return playerService.deletePlayer(id);
     }
 }

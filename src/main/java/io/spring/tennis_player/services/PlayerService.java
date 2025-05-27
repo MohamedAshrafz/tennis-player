@@ -1,6 +1,7 @@
 package io.spring.tennis_player.services;
 
 import io.spring.tennis_player.Repositories.PlayerJPARepository;
+import io.spring.tennis_player.exceptions.PlayerNotFoundException;
 import io.spring.tennis_player.exceptions.ResourceNotFoundException;
 import io.spring.tennis_player.models.Player;
 import jakarta.persistence.EntityManager;
@@ -40,7 +41,7 @@ public class PlayerService {
 
         logger.info("getPlayerById for id: {}", id);
 
-        return playerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Player with id [%s] not found.", id)));
+        return playerRepository.findById(id).orElseThrow(() -> new PlayerNotFoundException(String.format("Player with id [%s] not found.", id)));
     }
 
     public Player addPlayer(Player player) {
@@ -58,7 +59,7 @@ public class PlayerService {
             player.setId(id);
             return playerRepository.save(player);
         } else
-            throw new ResourceNotFoundException(String.format("Cannot update, Player with id [%s] not found.", id));
+            throw new PlayerNotFoundException(String.format("Cannot update, Player with id [%s] not found.", id));
     }
 
     public Player patchPlayer(int id, Map<String, Object> playerPatch) {
@@ -66,49 +67,56 @@ public class PlayerService {
         logger.info("patchPlayer for id: {} with fields: {}", id, playerPatch);
 
         Optional<Player> optionalPlayer = playerRepository.findById(id);
-        Player playerToUpdate;
 
-        if (optionalPlayer.isPresent()) {
-            playerToUpdate = optionalPlayer.get();
-            // if you need the persistent context to ignore this entity and don't update it automatically
+        if (optionalPlayer.isEmpty())
+            throw new PlayerNotFoundException(String.format("Cannot update, Player with id [%s] not found.", id));
+        /// /////////////////////// if thrown we will top here
+
+        Player playerToUpdate = optionalPlayer.get();
+        // if you need the persistent context to ignore this entity and don't update it automatically
 //            entityManager.detach(playerToUpdate);
-            playerPatch.forEach((key, value) -> {
-                Field fieldToUpdate = ReflectionUtils.findField(Player.class, key);
-                if (fieldToUpdate != null && !Objects.equals(key, "id")) {
-                    ReflectionUtils.makeAccessible(fieldToUpdate);
-                    if (Objects.equals(key, "birthDate")) {
-                        ReflectionUtils.setField(fieldToUpdate, playerToUpdate, fromStringToLocalDate((String) value));
-                    } else
-                        ReflectionUtils.setField(fieldToUpdate, playerToUpdate, value);
-                }
-            });
+        playerPatch.forEach((key, value) -> {
+            Field fieldToUpdate = ReflectionUtils.findField(Player.class, key);
+            if (fieldToUpdate != null && !Objects.equals(key, "id")) {
+                ReflectionUtils.makeAccessible(fieldToUpdate);
+                if (Objects.equals(key, "birthDate")) {
+                    ReflectionUtils.setField(fieldToUpdate, playerToUpdate, fromStringToLocalDate((String) value));
+                } else
+                    ReflectionUtils.setField(fieldToUpdate, playerToUpdate, value);
+            }
+        });
 
-            // Isn't needed because of @Transactional
+        // Isn't needed because of @Transactional
 //            playerRepository.save(playerToUpdate);
-            return playerToUpdate;
-        } else
-            throw new RuntimeException(String.format("Cannot update, Player with id [%s] not found.", id));
+        return playerToUpdate;
     }
 
     public Player updatePlayerTitles(int id, int titles) {
 
         logger.info("updatePlayerTitles for id: {} and titles: {}", id, titles);
 
-        playerRepository.updatePlayerTitles(id, titles);
-
         Optional<Player> optionalPlayer = playerRepository.findById(id);
 
-        if (optionalPlayer.isPresent()) {
-            return optionalPlayer.get();
-        } else
-            throw new RuntimeException(String.format("Cannot update, Player with id [%s] not found.", id));
+        if (optionalPlayer.isEmpty())
+            throw new PlayerNotFoundException(String.format("Cannot update, Player with id [%s] not found.", id));
+        /// /////////////////////// if thrown we will top here
+
+        playerRepository.updatePlayerTitles(id, titles);
+        return optionalPlayer.get();
     }
 
-    public void deletePlayer(int id) {
+    public String deletePlayer(int id) {
 
         logger.info("deletePlayer for id: {}", id);
 
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+
+        if (optionalPlayer.isPresent())
+            throw new PlayerNotFoundException(String.format("Cannot delete, Player with id [%s] not found.", id));
+        /// /////////////////////// if thrown we will top here
+
         playerRepository.deleteById(id);
+        return String.format("Player with id [%d] wad deleted", id);
     }
 
     private static LocalDate fromStringToLocalDate(String strDate) {
