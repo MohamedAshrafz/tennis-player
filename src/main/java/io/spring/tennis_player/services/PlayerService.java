@@ -108,7 +108,7 @@ public class PlayerService {
 
         Optional<Player> optionalPlayer = playerRepository.findById(id);
 
-        if (optionalPlayer.isPresent())
+        if (optionalPlayer.isEmpty())
             throw new PlayerNotFoundException(String.format("Cannot delete, Player with id [%s] not found.", id));
         /// /////////////////////// if thrown we will top here
 
