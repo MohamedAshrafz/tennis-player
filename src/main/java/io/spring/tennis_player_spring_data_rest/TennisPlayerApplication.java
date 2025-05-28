@@ -1,15 +1,12 @@
-package io.spring.tennis_player;
+package io.spring.tennis_player_spring_data_rest;
 
-import io.spring.tennis_player.Repositories.PlayerJPARepository;
-import io.spring.tennis_player.models.Player;
+import io.spring.tennis_player_spring_data_rest.Repositories.PlayerJPARepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.sql.Date;
 
 @SpringBootApplication
 public class TennisPlayerApplication implements CommandLineRunner {
